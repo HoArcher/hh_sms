@@ -13,6 +13,9 @@ function initTotalList(columns) {
 }
 
 class StandardTable extends PureComponent {
+  static defaultProps={
+    hasRowSelection:true,
+  }
   constructor(props) {
     super(props);
     const { columns } = props;
@@ -26,7 +29,7 @@ class StandardTable extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     // clean state
-    if (nextProps.selectedRows.length === 0) {
+    if (nextProps.selectedRows && nextProps.selectedRows.length === 0) {
       const needTotalList = initTotalList(nextProps.columns);
       this.setState({
         selectedRowKeys: [],
@@ -71,12 +74,14 @@ class StandardTable extends PureComponent {
       loading,
       columns,
       rowKey,
+      hasRowSelection,
     } = this.props;
 
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
       ...pagination,
+      showTotal:()=> `总共${pagination && pagination.total ? pagination.total : 0}条`
     };
 
     const rowSelection = {
@@ -90,32 +95,37 @@ class StandardTable extends PureComponent {
     return (
       <div className={styles.standardTable}>
         <div className={styles.tableAlert}>
-          <Alert
-            message={
-              <Fragment>
-                已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
+          {
+            hasRowSelection ? (
+              <Alert
+                message={
+                  <Fragment>
+                    已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
                 {needTotalList.map(item => (
-                  <span style={{ marginLeft: 8 }} key={item.dataIndex}>
-                    {item.title}
-                    总计&nbsp;
+                      <span style={{ marginLeft: 8 }} key={item.dataIndex}>
+                        {item.title}
+                        总计&nbsp;
                     <span style={{ fontWeight: 600 }}>
-                      {item.render ? item.render(item.total) : item.total}
-                    </span>
-                  </span>
-                ))}
-                <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>
-                  清空
+                          {item.render ? item.render(item.total) : item.total}
+                        </span>
+                      </span>
+                    ))}
+                    <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>
+                      清空
                 </a>
-              </Fragment>
-            }
-            type="info"
-            showIcon
-          />
+                  </Fragment>
+                }
+                type="info"
+                showIcon
+              />
+            ) : null
+          }
+
         </div>
         <Table
           loading={loading}
           rowKey={rowKey || 'key'}
-          rowSelection={rowSelection}
+          rowSelection={hasRowSelection ? rowSelection : null}
           dataSource={list}
           columns={columns}
           pagination={paginationProps}
