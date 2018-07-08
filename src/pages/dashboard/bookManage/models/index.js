@@ -37,10 +37,10 @@ export default {
     *fetchBookDetail({ payload, callback }, { call, put }) {
       const response = yield call(getBookDetail, payload);
       const { status, errorMessage } = response;
-      if (response.status === 'ok') {
+      if (response.status === 'ok'&&response.result) {
         yield put({
-          type: 'queryList',
-          payload: { bookDetail: response.result },
+          type: 'queryBookDetail',
+          payload: response.result ,
         });
 
       }
@@ -68,6 +68,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    queryBookDetail(state, action) {
+      return {
+        ...state,
+        bookDetail: action.payload,
       };
     },
 

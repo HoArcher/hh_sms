@@ -49,7 +49,7 @@ export default {
             const exitData = dataSource.filter((item) => item.key === key)
             res.send({
                 status: 'ok',
-                result: exitData,
+                result: exitData.length>0 ? exitData[0] :null,
             });
         }else{
             res.send({

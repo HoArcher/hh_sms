@@ -42,7 +42,7 @@ export default class TableList extends PureComponent {
     formValues: {},
 
     editmodalVisible: false,
-    addmodalVisible:false,
+    addmodalVisible: false,
   };
 
   componentDidMount() {
@@ -109,10 +109,10 @@ export default class TableList extends PureComponent {
 
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-
+      const { number, date } = fieldsValue;
       const values = {
-        ...fieldsValue,
-        date:moment(fieldsValue.date).format('l')
+        number: number ? number : null,
+        date: date ? moment(fieldsValue.date).format('l') : null,
       };
 
       this.setState({
@@ -167,52 +167,53 @@ export default class TableList extends PureComponent {
   }
 
   //---------------------------修改
-  handleUpdateOk=(fields)=> {
+  handleUpdateOk = (fields) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'bookManage/modifyBook',
-      payload:{ ...fields},
-      callback: (status,error) => {
-        status==='ok' ?  message.success('修改书籍成功') : message.error(error);
+      payload: { ...fields },
+      callback: (status, error) => {
+        status === 'ok' ? message.success('修改书籍成功') : message.error(error);
       },
     });
     this.setState({
       editmodalVisible: false,
     });
   }
-  handleEditModalVisiable=(flag, key)=> {
+  handleEditModalVisiable = (flag, key) => {
+    const editmodalVisible = !!flag;
+    if (editmodalVisible) {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'bookManage/fetchBookDetail',
+        payload: { key },
+        callback: (status, error) => {
+          if (status === 'error') {
+            message.error(error)
+          }
+        },
+      });
+    }
     this.setState({
-      editmodalVisible: !!flag,
+      editmodalVisible,
     });
   }
   //-----------------------------添加
-  handleAddOk=(fields)=> {
+  handleAddOk = (fields) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'bookManage/addBook',
-      payload:{ ...fields},
-      callback: (status,error) => {
-        status==='ok' ?  message.success('添加书籍成功') : message.error(error);
+      payload: { ...fields },
+      callback: (status, error) => {
+        status === 'ok' ? message.success('添加书籍成功') : message.error(error);
       },
     });
     this.setState({
       addmodalVisible: false,
     });
   }
-  handleAddModalVisiable=(flag, key)=> {
+  handleAddModalVisiable = (flag, key) => {
     const addmodalVisible = !!flag;
-    if(addmodalVisible){
-      const { dispatch } = this.props;
-      dispatch({
-        type: 'bookManage/fetchBookDetail',
-        payload:{key},
-        callback: (status,error) => {
-          if( status==='error'){
-            message.error(error)
-          }
-        },
-      });
-    }
     this.setState({
       addmodalVisible,
     });
@@ -220,10 +221,10 @@ export default class TableList extends PureComponent {
 
   render() {
     const {
-      bookManage: { data,bookDetail },
+      bookManage: { data, bookDetail },
       loading,
     } = this.props;
-    const { selectedRows, editmodalVisible,addmodalVisible } = this.state;
+    const { selectedRows, editmodalVisible, addmodalVisible } = this.state;
 
     const columns = [
       {
@@ -268,7 +269,7 @@ export default class TableList extends PureComponent {
       modalVisible: editmodalVisible,
       bookDetail,
     }
-    const addMenthod={
+    const addMenthod = {
       handleOk: this.handleAddOk,
       handleModalVisible: this.handleAddModalVisiable,
       modalVisible: addmodalVisible

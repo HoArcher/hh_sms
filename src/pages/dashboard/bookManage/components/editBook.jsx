@@ -8,21 +8,18 @@ const FormItem = Form.Item;
 const formOptions = {
     mapPropsToFields: (props) => {
         return props.bookDetail && JSON.stringify(props.bookDetail) !== '{}' ? {
-            username: Form.createFormField({
-                ...props.username,
-                value: props.username.value,
+
+            description: Form.createFormField({
+                // ...props.description,
+                value: props.bookDetail.description,
             }),
-            description:Form.createFormField({
-                ...props.description,
-                value: props.description.value,
+            bookType: Form.createFormField({
+                // ...props.bookType,
+                value: props.bookDetail.bookType,
             }),
-            bookType:Form.createFormField({
-                ...props.bookType,
-                value: props.bookType.value,
-            }),
-            callNo:Form.createFormField({
-                ...props.callNo,
-                value: props.callNo.value,
+            callNo: Form.createFormField({
+                //...props.callNo,
+                value: props.bookDetail.callNo,
             }),
         } : {};
     }
@@ -41,7 +38,10 @@ export default class EditBook extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                if (this.props.handleOk) { this.props.handleOk(values) }
+                const {bookDetail}=this.props;
+                const fieldsValue = bookDetail && JSON.stringify(bookDetail) !== '{}' ?
+                    { key: bookDetail.key, ...values } : { ...values }
+                if (this.props.handleOk) { this.props.handleOk(fieldsValue) }
             }
         });
         // this.setState({
@@ -50,7 +50,7 @@ export default class EditBook extends Component {
     }
 
     handleCancel = (e) => {
-        if(this.props.handleModalVisible){this.props.handleModalVisible()}
+        if (this.props.handleModalVisible) { this.props.handleModalVisible() }
         // this.setState({
         //     visible: false,
         // });
@@ -62,7 +62,7 @@ export default class EditBook extends Component {
         });
     }
     render() {
-        const { bookDetail,modalVisible } = this.props;
+        const { bookDetail, modalVisible } = this.props;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 5 },
@@ -112,7 +112,7 @@ export default class EditBook extends Component {
                         {getFieldDecorator('callNo', {
                             rules: [{ required: true, message: '必填!' }],
                         })(
-                            <InputNumber min={1} max={100}/>
+                            <InputNumber min={1} max={100} />
                         )}
                     </FormItem>
                 </Form>
