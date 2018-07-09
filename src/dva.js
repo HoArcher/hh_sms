@@ -11,9 +11,7 @@ export function config() {
       message.error(err.message);
     },
     initialState: {
-      global: {
-        text: 'hi umi + dva',
-      },
+
     },
   };
 }

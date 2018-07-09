@@ -5,24 +5,25 @@ import { login, logout } from '../services/index';
 export default {
   namespace: 'global',
   state: {
-    message: '',
     login: false,
     user: {},
-    routers:[]
+    menus: [],
+    routers: []
   },
   effects: {
-    *login({ payload }, { call, put }) {
+    *login({ payload, callback }, { call, put }) {
       const response = yield call(login, payload);
       yield put({
-        type: 'userInfo',
+        type: 'loginInfo',
         payload: response,
       });
       if (response.status === 'ok') {
         router.push({
           pathname: '/dashboard/bookManage',
-          state: response.result.role
         });
-
+      }
+      else {
+        callback && callback(response.status, response.message)
       }
     },
     *logout({ payload }, { call, put }) {
@@ -48,13 +49,13 @@ export default {
         text: 'setted dva',
       };
     },
-    userInfo(state, action) {
+    loginInfo(state, action) {
       if (action.payload && action.payload.status === 'ok') {
         return {
           ...state,
-          user: action.payload.result,
+          user: action.payload.info,
           login: true,
-          message: action.payload.message
+          menus: action.payload.message
         };
       }
       else {

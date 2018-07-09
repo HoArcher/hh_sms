@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'dva';
 import withRouter from 'umi/withRouter';
-import { Button, Row, Checkbox, Form, Input, Radio, Spin ,Alert} from 'antd';
+import { Button, Row, Checkbox, Form, Input, Radio, Spin ,message,Alert} from 'antd';
 // import { config } from 'utils';
 import icon from './imgs/timg.jpg';
 import styles from './index.less';
@@ -36,6 +36,7 @@ class Login extends Component {
           payload: {
             ...values,
           },
+          callback:(status,msg)=>status==='error'&&message.error(msg)
         });
       }
       // dispatch({ type: 'login/login', payload: values })
@@ -43,7 +44,7 @@ class Login extends Component {
   }
 
   renderMessage = content => {
-    return <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />;
+    return <Alert style={{ marginBottom: 24 }} message={content} type="error" closable showIcon />;
   }
   
   render() {
