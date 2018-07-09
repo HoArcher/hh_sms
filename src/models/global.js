@@ -55,7 +55,8 @@ export default {
           ...state,
           user: action.payload.info,
           login: true,
-          menus: action.payload.message
+          menus: action.payload.menus,
+          routers: action.payload.routers,
         };
       }
       else {
@@ -63,7 +64,8 @@ export default {
           ...state,
           user: {},
           login: false,
-          message: action.payload.message
+          menus: [],
+          routers: [],
         };
       }
     },

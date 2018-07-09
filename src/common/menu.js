@@ -19,7 +19,7 @@ const menuData = [
       },
     ],
   },
-    {
+  {
     name: '产品(一般用户)',
     icon: 'table',
     path: 'list',
@@ -34,19 +34,19 @@ const menuData = [
       },
     ],
   },
-  {
-    name: '账户',
-    icon: 'user',
-    path: '/',
-    authority: 'guest',
-    hideInMenu: true,
-    children: [
-      {
-        name: '登录',
-        path: 'login',
-      },
-    ],
-  },
+  // {
+  //   name: '账户',
+  //   icon: 'user',
+  //   path: '/',
+  //   authority: 'guest',
+  //   hideInMenu: true,
+  //   children: [
+  //     {
+  //       name: '登录',
+  //       path: 'login',
+  //     },
+  //   ],
+  // },
 ];
 
 function formatter(data, parentPath = '/', parentAuthority) {
@@ -67,4 +67,22 @@ function formatter(data, parentPath = '/', parentAuthority) {
   });
 }
 
+function getRoutes(mDatas) {
+  let newArr = new Array();
+  mDatas.forEach(element => {
+    const root = `/${element.path}`;
+    if (!element.children || element.children.length === 0) {
+      newArr.push(root)
+    }
+    else {
+      const childRoutes = getRoutes(element.children);
+      childRoutes.forEach(item => {
+        newArr.push(`${root}${item}`)
+      })
+    }
+  });
+  return newArr;
+}
+
 export const getMenuData = () => formatter(menuData);
+export const getAllRoutes = () => getRoutes(menuData);

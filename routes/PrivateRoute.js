@@ -3,18 +3,18 @@ import { connect } from 'dva';
 import Exception from '../src/components/exception';
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import { getMenuData } from '../src/common/menu.js';
+import { getAllRoutes } from '../src/common/menu.js';
 const defaultRoutes = ['/'];
 
 
 export default connect(({ global }) => ({ global }))((args) => {
-  const { render, global, ...rest } = args;
+  const { render, global: { routers }, ...rest } = args;
 
-  const allRoute = getMenuData();
+  const allRoute = getAllRoutes();
   console.log(allRoute)
   debugger;
   //所有有权限访问的路由
-  const accessRoutes = new Array().concat(defaultRoutes, global.menus.map(item => item.path));
+  const accessRoutes = new Array().concat(defaultRoutes, routers);
 
 
   if (accessRoutes.indexOf(args.location.pathname) != -1) {

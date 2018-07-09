@@ -36,7 +36,7 @@ if (module.hot) {
   });
 }
 
-require('D:/aaaaa/hh_sms/src/global.css');
+require('D:/umi-projects/umi2/src/global.css');
 // Enable service worker
 if (process.env.NODE_ENV === 'production') {
   require('./registerServiceWorker');
