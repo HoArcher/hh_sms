@@ -1,6 +1,5 @@
-import { routerRedux } from 'dva/router';
 import router from 'umi/router';
-import { login, logout } from '../services/index';
+import { login, logout, checkLogin } from '../services/index';
 
 export default {
   namespace: 'global',
@@ -22,6 +21,19 @@ export default {
         router.push({
           pathname: '/dashboard/bookManage',
         });
+      }
+      else {
+        callback && callback(response.status, response.message)
+      }
+    },
+    *checkLogin({ payload, callback }, { call, put }) {
+      const response = yield call(checkLogin, payload);
+      yield put({
+        type: 'loginInfo',
+        payload: response,
+      });
+      if (response.status === 'ok') {
+
       }
       else {
         callback && callback(response.status, response.message)

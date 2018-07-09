@@ -7,6 +7,13 @@ export async function login(params) {
   });
 }
 
+export async function checkLogin(params) {
+  return request('/api/checkLogin', {
+    method: 'POST',
+    body: params,
+  });
+}
+
 export async function logout(params) {
   return request('/api/logout', {
     method: 'POST',

@@ -5,6 +5,7 @@ import { getMenuData } from '../common/menu';
 import withRouter from 'umi/withRouter';
 import logo from '../assets/logo.svg';
 import GlobalHeader from "../components/GlobalHeader";
+import {formatter} from '../utils/utils'
 import { connect } from 'dva';
 const { Content, Header, Footer } = Layout;
 
@@ -20,9 +21,15 @@ class BasicLayout extends Component {
     };
   }
   componentWillMount() {
-    const { global: { login } } = this.props;
-    if(!login){
-      
+    const { global: { login }, dispatch } = this.props;
+    if (!login && localStorage.sms_uuid) {
+      dispatch({
+        type: 'global/checkLogin',
+        payload: {
+          uuid: localStorage.sms_uuid
+        },
+        callback: (status, msg) => status === 'error' && message.error(msg)
+      });
     }
   }
 
@@ -33,14 +40,14 @@ class BasicLayout extends Component {
   };
 
   render() {
-    const { children, location, global: { user } } = this.props;
+    const { children, location, global: { user,menus } } = this.props;
     const { collapsed } = this.state;
     return this.props.location.pathname === '/' ? (<div>{this.props.children}</div>) :
       (<Layout>
         <SiderMenu
           logo={logo}
           collapsed={collapsed}
-          menuData={getMenuData()}
+          menuData={formatter(menus)}
           location={location}
           onCollapse={this.handleMenuCollapse}
         />
