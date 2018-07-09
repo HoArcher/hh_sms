@@ -18,6 +18,7 @@ export default {
         payload: response,
       });
       if (response.status === 'ok') {
+        localStorage.setItem('sms_uuid', response.uuid);
         router.push({
           pathname: '/dashboard/bookManage',
         });

@@ -19,6 +19,12 @@ class BasicLayout extends Component {
       collapsed: false,
     };
   }
+  componentWillMount() {
+    const { global: { login } } = this.props;
+    if(!login){
+      
+    }
+  }
 
   handleMenuCollapse = () => {
     this.setState({
