@@ -9,10 +9,10 @@ export default {
   'post /api/checkLogin': function (req, res, next) {
     setTimeout(() => {
       res.json((req.body.uuid === '0123456789abcdef') ?
-        userDatas : ((req.body === '9876543210abcdef') ? adminDatas : { status: 'error', message: '登陆已失效，请重新登陆!' }))
+        userDatas : ((req.body.uuid === '9876543210abcdef') ? adminDatas : { status: 'error', message: '登陆已失效，请重新登陆!' }))
     }, 1500)
   },
-  'get /api/logout':
+  'post /api/logout':
   {
     status: 'ok', message: '退出成功!'
   }

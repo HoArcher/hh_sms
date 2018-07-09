@@ -1,6 +1,6 @@
 import { isUrl } from '../utils/utils';
 
-const menuData = [
+export const menuData = [
   {
     name: '控制台(管理员)',
     icon: 'dashboard',

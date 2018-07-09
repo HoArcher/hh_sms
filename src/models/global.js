@@ -18,8 +18,9 @@ export default {
       });
       if (response.status === 'ok') {
         localStorage.setItem('sms_uuid', response.uuid);
+        const nextPage = response.info.role === 'user' ? '/list/bookList' : '/dashboard/bookManage';
         router.push({
-          pathname: '/dashboard/bookManage',
+          pathname: nextPage,
         });
       }
       else {
@@ -44,11 +45,10 @@ export default {
       if (response.status === 'ok') {
         yield put({
           type: 'signout',
-          payload: response,
         });
       }
 
-      router.push('/login/login');
+      router.push('/');
     },
 
     *throwError() {
@@ -84,8 +84,10 @@ export default {
     },
     signout(state) {
       return {
-        ...state,
-        login: true,
+        login: false,
+        user: {},
+        menus: [],
+        routers: []
       };
     },
   },

@@ -5,8 +5,9 @@ import { getMenuData } from '../common/menu';
 import withRouter from 'umi/withRouter';
 import logo from '../assets/logo.svg';
 import GlobalHeader from "../components/GlobalHeader";
-import {formatter} from '../utils/utils'
+import { formatter } from '../utils/utils'
 import { connect } from 'dva';
+import { logout } from '../services';
 const { Content, Header, Footer } = Layout;
 
 @connect(({ global, loading }) => ({
@@ -21,8 +22,8 @@ class BasicLayout extends Component {
     };
   }
   componentWillMount() {
-    const { global: { login }, dispatch } = this.props;
-    if (!login && localStorage.sms_uuid) {
+    const { global: { login }, dispatch, location } = this.props;
+    if (!login && localStorage.sms_uuid && location.pathname !== '/') {
       dispatch({
         type: 'global/checkLogin',
         payload: {
@@ -39,8 +40,26 @@ class BasicLayout extends Component {
     });
   };
 
+  onMenuClick(e, a) {
+    const { dispatch } = this.props;
+    switch (e.key) {
+      case 'logout':
+        dispatch({
+          type: 'global/logout',
+          payload: {
+            uuid: localStorage.sms_uuid
+          },
+          callback: (status, msg) => status === 'error' && message.error(msg)
+        });
+        break;
+
+      default:
+        break;
+    }
+  }
+
   render() {
-    const { children, location, global: { user,menus } } = this.props;
+    const { children, location, global: { user, menus } } = this.props;
     const { collapsed } = this.state;
     return this.props.location.pathname === '/' ? (<div>{this.props.children}</div>) :
       (<Layout>
@@ -62,6 +81,7 @@ class BasicLayout extends Component {
                 userid: '00000001',
                 notifyCount: 12,
               }}
+              onMenuClick={this.onMenuClick.bind(this)}
               onCollapse={this.handleMenuCollapse}
             />
           </Header>

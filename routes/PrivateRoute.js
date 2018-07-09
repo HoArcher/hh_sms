@@ -2,14 +2,15 @@ import { Route } from 'react-router-dom';
 import { connect } from 'dva';
 import Exception from '../src/components/exception';
 import React from 'react'
-import { getAllRoutes } from '../src/common/menu.js';
+import { menuData } from '../src/common/menu.js';
+import { getRoutes } from '../src/utils/utils.js'
 const defaultRoutes = ['/'];
 
 export default connect(({ global }) => ({ global }))((args) => {
   const { render, global: { routers }, ...rest } = args;
 
   //项目中所有路由
-  let allRouters = getAllRoutes();
+  let allRouters = getRoutes(menuData);
   allRouters = new Array().concat(defaultRoutes, allRouters);
   let status = '200';
 
