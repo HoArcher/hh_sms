@@ -141,26 +141,26 @@ function getRenderArr(routes) {
  * @param {string} path
  * @param {routerData} routerData
  */
-export function getRoutes(path, routerData) {
-  let routes = Object.keys(routerData).filter(
-    routePath => routePath.indexOf(path) === 0 && routePath !== path
-  );
-  // Replace path to '' eg. path='user' /user/name => name
-  routes = routes.map(item => item.replace(path, ''));
-  // Get the route to be rendered to remove the deep rendering
-  const renderArr = getRenderArr(routes);
-  // Conversion and stitching parameters
-  const renderRoutes = renderArr.map(item => {
-    const exact = !routes.some(route => route !== item && getRelation(route, item) === 1);
-    return {
-      exact,
-      ...routerData[`${path}${item}`],
-      key: `${path}${item}`,
-      path: `${path}${item}`,
-    };
-  });
-  return renderRoutes;
-}
+// export function getRoutes(path, routerData) {
+//   let routes = Object.keys(routerData).filter(
+//     routePath => routePath.indexOf(path) === 0 && routePath !== path
+//   );
+//   // Replace path to '' eg. path='user' /user/name => name
+//   routes = routes.map(item => item.replace(path, ''));
+//   // Get the route to be rendered to remove the deep rendering
+//   const renderArr = getRenderArr(routes);
+//   // Conversion and stitching parameters
+//   const renderRoutes = renderArr.map(item => {
+//     const exact = !routes.some(route => route !== item && getRelation(route, item) === 1);
+//     return {
+//       exact,
+//       ...routerData[`${path}${item}`],
+//       key: `${path}${item}`,
+//       path: `${path}${item}`,
+//     };
+//   });
+//   return renderRoutes;
+// }
 
 export function getPageQuery() {
   return parse(window.location.href.split('?')[1]);
@@ -198,4 +198,21 @@ export function formatter(data, parentPath = '/', parentAuthority) {
     }
     return result;
   });
+}
+
+export function getRoutes(mDatas) {
+  let newArr = new Array();
+  mDatas.forEach(element => {
+    const root = `/${element.path}`;
+    if (!element.children || element.children.length === 0) {
+      newArr.push(root)
+    }
+    else {
+      const childRoutes = getRoutes(element.children);
+      childRoutes.forEach(item => {
+        newArr.push(`${root}${item}`)
+      })
+    }
+  });
+  return newArr;
 }
