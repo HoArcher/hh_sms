@@ -17,7 +17,8 @@ export default {
         payload: response,
       });
       if (response.status === 'ok') {
-        localStorage.setItem('sms_uuid', response.uuid);
+        payload.remember ? localStorage.setItem('sms_uuid', response.uuid) : sessionStorage.setItem('sms_uuid', response.uuid);
+
         const nextPage = response.info.role === 'user' ? '/list/bookList' : '/dashboard/bookManage';
         router.push({
           pathname: nextPage,
@@ -43,12 +44,14 @@ export default {
     *logout({ payload }, { call, put }) {
       const response = yield call(logout, payload);
       if (response.status === 'ok') {
+        localStorage.removeItem('sms_uuid');
+        sessionStorage.removeItem('sms_uuid');
         yield put({
           type: 'signout',
         });
       }
 
-      router.push('/');
+      router.replace('/');
     },
 
     *throwError() {
