@@ -26,7 +26,8 @@ const userDatas = {
     alias: '北京',
     role: 'user',
   },
-  routers: ['/list/bookList'],
+  allowedRouters: ['/list/bookList'],
+  allRouters: ['/dashboard/bookManage', '/dashboard/analysis', '/list/bookList'],
   menus: [
     {
       name: '产品(一般用户)',
@@ -57,7 +58,8 @@ const adminDatas = {
     alias: '北京',
     role: 'admin',
   },
-  routers: ['/dashboard/bookManage', '/dashboard/analysis'],
+  allowedRouters: ['/dashboard/bookManage', '/dashboard/analysis'],
+  allRouters: ['/dashboard/bookManage', '/dashboard/analysis', '/list/bookList'],
   menus: [
     {
       name: '控制台(管理员)',
