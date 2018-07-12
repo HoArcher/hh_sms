@@ -7,7 +7,8 @@ export default {
     login: false,
     user: {},
     menus: [],
-    routers: []
+    allowedRouters: [],
+    allRouters: []
   },
   effects: {
     *login({ payload, callback }, { call, put }) {
@@ -72,7 +73,8 @@ export default {
           user: action.payload.info,
           login: true,
           menus: action.payload.menus,
-          routers: action.payload.routers,
+          allowedRouters: action.payload.allowedRouters,
+          allRouters: action.payload.allRouters,
         };
       }
       else {
@@ -81,7 +83,8 @@ export default {
           user: {},
           login: false,
           menus: [],
-          routers: [],
+          allowedRouters: [],
+          allRouters: []
         };
       }
     },

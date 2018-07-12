@@ -5,12 +5,17 @@ import { getMenuData } from '../common/menu';
 import withRouter from 'umi/withRouter';
 import logo from '../assets/logo.svg';
 import GlobalHeader from "../components/GlobalHeader";
+import { enquireScreen, unenquireScreen } from 'enquire-js';
 import { formatter } from '../utils/utils'
 import { connect } from 'dva';
 import { logout } from '../services';
 import router from 'umi/router';
 const { Content, Header, Footer } = Layout;
 
+let isMobile;
+enquireScreen(b => {
+  isMobile = b;
+});
 @connect(({ global, loading }) => ({
   global,
   logining: loading.effects['global/checkLogin'],
@@ -20,6 +25,7 @@ class BasicLayout extends Component {
     super(props);
     this.state = {
       collapsed: false,
+      isMobile,
     };
   }
   componentWillMount() {
@@ -37,6 +43,13 @@ class BasicLayout extends Component {
         pathname: '/',
       });
     }
+  }
+  componentDidMount() {
+    this.enquireHandler = enquireScreen(mobile => {
+      this.setState({
+        isMobile: mobile,
+      });
+    });
   }
 
   handleMenuCollapse = () => {
@@ -65,7 +78,7 @@ class BasicLayout extends Component {
 
   render() {
     const { children, location, global: { user, menus } } = this.props;
-    const { collapsed } = this.state;
+    const { collapsed, isMobile: mb } = this.state;
     if (this.props.logining) {
       return <Layout style={{ paddingTop: '18rem' }}>
         <Spin tip="登录验证中..." />
@@ -80,12 +93,14 @@ class BasicLayout extends Component {
             menuData={formatter(menus)}
             location={location}
             onCollapse={this.handleMenuCollapse}
+            isMobile={mb}
           />
           <Layout>
             <Header style={{ padding: 0 }}>
               <GlobalHeader
                 logo={logo}
                 collapsed={collapsed}
+                isMobile={mb}
                 currentUser={{
                   name: user.name,
                   avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',

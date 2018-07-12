@@ -10,7 +10,7 @@ export default {
     setTimeout(() => {
       res.json((req.body.uuid === '0123456789abcdef') ?
         userDatas : ((req.body.uuid === '9876543210abcdef') ? adminDatas : { status: 'error', message: '登陆已失效，请重新登陆!' }))
-    }, 1500)
+    }, 500)
   },
   'post /api/logout':
   {
@@ -26,7 +26,8 @@ const userDatas = {
     alias: '北京',
     role: 'user',
   },
-  routers: ['/list/bookList'],
+  allowedRouters: ['/list/bookList'],
+  allRouters: ['/dashboard/bookManage', '/dashboard/analysis', '/list/bookList'],
   menus: [
     {
       name: '产品(一般用户)',
@@ -57,7 +58,8 @@ const adminDatas = {
     alias: '北京',
     role: 'admin',
   },
-  routers: ['/dashboard/bookManage', '/dashboard/analysis'],
+  allowedRouters: ['/dashboard/bookManage', '/dashboard/analysis'],
+  allRouters: ['/dashboard/bookManage', '/dashboard/analysis', '/list/bookList'],
   menus: [
     {
       name: '控制台(管理员)',
