@@ -10,7 +10,7 @@ export default {
     setTimeout(() => {
       res.json((req.body.uuid === '0123456789abcdef') ?
         userDatas : ((req.body.uuid === '9876543210abcdef') ? adminDatas : { status: 'error', message: '登陆已失效，请重新登陆!' }))
-    }, 1500)
+    }, 500)
   },
   'post /api/logout':
   {
