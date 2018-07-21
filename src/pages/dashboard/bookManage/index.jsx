@@ -174,6 +174,9 @@ export default class TableList extends PureComponent {
       payload: { ...fields },
       callback: (status, error) => {
         status === 'ok' ? message.success('修改书籍成功') : message.error(error);
+        dispatch({
+          type: 'bookManage/clearBookDetail',
+        });
       },
     });
     this.setState({
@@ -181,9 +184,10 @@ export default class TableList extends PureComponent {
     });
   }
   handleEditModalVisiable = (flag, key) => {
+    const { dispatch } = this.props;
     const editmodalVisible = !!flag;
     if (editmodalVisible) {
-      const { dispatch } = this.props;
+     
       dispatch({
         type: 'bookManage/fetchBookDetail',
         payload: { key },
@@ -197,6 +201,11 @@ export default class TableList extends PureComponent {
     this.setState({
       editmodalVisible,
     });
+    if (!editmodalVisible) {
+      dispatch({
+        type: 'bookManage/clearBookDetail',
+      });
+    }
   }
   //-----------------------------添加
   handleAddOk = (fields) => {
@@ -206,23 +215,36 @@ export default class TableList extends PureComponent {
       payload: { ...fields },
       callback: (status, error) => {
         status === 'ok' ? message.success('添加书籍成功') : message.error(error);
+        dispatch({
+          type: 'bookManage/clearBookDetail',
+        });
       },
     });
     this.setState({
       addmodalVisible: false,
     });
+
+
+
+    
   }
   handleAddModalVisiable = (flag, key) => {
+    const { dispatch } = this.props;
     const addmodalVisible = !!flag;
     this.setState({
       addmodalVisible,
     });
+    if (!addmodalVisible) {
+      dispatch({
+        type: 'bookManage/clearBookDetail',
+      });
+    }
   }
 
   render() {
     const {
       bookManage: { data, bookDetail },
-      loading,
+      loading, dispatch,
     } = this.props;
     const { selectedRows, editmodalVisible, addmodalVisible } = this.state;
 
@@ -267,12 +289,15 @@ export default class TableList extends PureComponent {
       handleOk: this.handleUpdateOk,
       handleModalVisible: this.handleEditModalVisiable,
       modalVisible: editmodalVisible,
+      dispatch,
       bookDetail,
     }
     const addMenthod = {
       handleOk: this.handleAddOk,
       handleModalVisible: this.handleAddModalVisiable,
-      modalVisible: addmodalVisible
+      modalVisible: addmodalVisible,
+      dispatch,
+      bookDetail,
     }
 
     return (

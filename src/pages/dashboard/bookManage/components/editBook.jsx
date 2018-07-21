@@ -6,22 +6,35 @@ const { Option } = Select;
 const FormItem = Form.Item;
 
 const formOptions = {
+    onFieldsChange(props, fields) {
+        if(props.dispatch){
+            props.dispatch({
+                type: 'bookManage/saveFormfields',
+                payload: {...props.bookDetail,...fields},
+            });
+        }
+    },
     mapPropsToFields: (props) => {
-        return props.bookDetail && JSON.stringify(props.bookDetail) !== '{}' ? {
+        if(props.bookDetail && JSON.stringify(props.bookDetail) !== '{}'){
+            return {
 
-            description: Form.createFormField({
-                // ...props.description,
-                value: props.bookDetail.description,
-            }),
-            bookType: Form.createFormField({
-                // ...props.bookType,
-                value: props.bookDetail.bookType,
-            }),
-            callNo: Form.createFormField({
-                //...props.callNo,
-                value: props.bookDetail.callNo,
-            }),
-        } : {};
+                description: Form.createFormField({
+                     ...props.bookDetail.description,
+                    //value: props.bookDetail.description,
+                }),
+                bookType: Form.createFormField({
+                    ...props.bookDetail.bookType,
+                    //value: props.bookDetail.bookType.value,
+                }),
+                callNo: Form.createFormField({
+                    ...props.bookDetail.callNo,
+                    //value: props.bookDetail.callNo,
+                }),
+            }
+        }else{
+            return {};
+        }
+
     }
 };
 
@@ -38,7 +51,7 @@ export default class EditBook extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const {bookDetail}=this.props;
+                const { bookDetail } = this.props;
                 const fieldsValue = bookDetail && JSON.stringify(bookDetail) !== '{}' ?
                     { key: bookDetail.key, ...values } : { ...values }
                 if (this.props.handleOk) { this.props.handleOk(fieldsValue) }
@@ -56,11 +69,7 @@ export default class EditBook extends Component {
         // });
     }
 
-    handleSelectChange = (value) => {
-        this.props.form.setFieldsValue({
-            description: `Hi,你选择了 ${value}!`,
-        });
-    }
+
     render() {
         const { bookDetail, modalVisible } = this.props;
         const { getFieldDecorator } = this.props.form;
@@ -96,7 +105,7 @@ export default class EditBook extends Component {
                         })(
                             <Select
                                 placeholder="请选择书籍类别"
-                                onChange={this.handleSelectChange}
+                                // onChange={this.handleSelectChange}
                             >
                                 <Option value="儿童">儿童</Option>
                                 <Option value="科幻">科幻</Option>

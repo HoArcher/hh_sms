@@ -49,15 +49,15 @@ export default {
             const exitData = dataSource.filter((item) => item.key === key)
             res.send({
                 status: 'ok',
-                result: exitData.length>0 ? exitData[0] :null,
+                result: exitData.length > 0 ? exitData[0] : null,
             });
-        }else{
+        } else {
             res.send({
                 status: 'error',
-                errorMessage:'请传入需要获取的数据的key'
+                errorMessage: '请传入需要获取的数据的key'
             });
         }
-       
+
 
     },
 
@@ -118,7 +118,7 @@ export default {
                     }
                 },
             });
-        }else {
+        } else {
             res.send({
                 status: 'error',
                 errorMessage: '请传入正确的数据到后台',
@@ -127,6 +127,18 @@ export default {
 
 
     },
+    'get /api/bookDescription': (req, res) => {
+        const { bookType } = req.query;
+
+        res.send({
+            status: 'ok',
+            result: { description: bookType },
+        });
+
+
+    },
+
+
 
 
 }

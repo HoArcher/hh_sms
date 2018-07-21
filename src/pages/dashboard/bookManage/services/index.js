@@ -36,3 +36,8 @@ export async function putBook(params) {
     },
   });
 }
+
+//  
+export async function queryDesByBookType(params) {
+  return request(`/api/bookDescription?${stringify(params)}`);
+}

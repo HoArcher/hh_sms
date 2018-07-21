@@ -1,4 +1,4 @@
-import { queryBookList, postBook, putBook, getBookDetail } from '../services';
+import { queryBookList, postBook, putBook, getBookDetail, queryDesByBookType } from '../services';
 
 export default {
   namespace: 'bookManage',
@@ -8,7 +8,11 @@ export default {
       list: [],
       pagination: {},
     },
-    bookDetail: null,
+    bookDetail: {
+      description: null,
+      bookType: null,
+      callNo: 0,
+    },
   },
 
   effects: {
@@ -37,10 +41,13 @@ export default {
     *fetchBookDetail({ payload, callback }, { call, put }) {
       const response = yield call(getBookDetail, payload);
       const { status, errorMessage } = response;
-      if (response.status === 'ok'&&response.result) {
+      if (response.status === 'ok' && response.result) {
         yield put({
           type: 'queryBookDetail',
-          payload: response.result ,
+          payload: {
+            callNo:{value:response.result.callNo},
+            description:{value:response.result.description}
+          },
         });
 
       }
@@ -59,6 +66,31 @@ export default {
       }
       if (callback) callback(status, errorMessage);
     },
+    *saveFormfields({ payload, callback }, { call, put }) {
+      let { description } = payload;
+      if (payload.bookType.value) {
+        const response = yield call(queryDesByBookType, { bookType: payload.bookType.value });
+        if (response.status === 'ok') {
+          description = {value:response.result.description}
+        }
+      }
+      yield put({
+        type: 'storageFormfields',
+        payload: { ...payload, description },
+      });
+    },
+    *clearBookDetail({ payload, callback }, { call, put }) {
+      yield put({
+        type: 'storageFormfields',
+        payload: {
+         
+            description: null,
+            bookType: null,
+            callNo: 0,
+          
+        },
+      });
+    }
 
 
   },
@@ -74,6 +106,12 @@ export default {
       return {
         ...state,
         bookDetail: action.payload,
+      };
+    },
+    storageFormfields(state, { payload }) {
+      return {
+        ...state,
+        bookDetail: payload,
       };
     },
 
