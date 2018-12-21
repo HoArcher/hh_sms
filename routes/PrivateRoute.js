@@ -7,6 +7,8 @@ import { getRoutes } from '../src/utils/utils.js'
 const defaultRoutes = ['/'];
 
 export default connect(({ global }) => ({ global }))((args) => {
+
+  debugger
   const { render, global: { routers }, ...rest } = args;
 
   //项目中所有路由

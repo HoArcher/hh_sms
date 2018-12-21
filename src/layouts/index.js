@@ -2,9 +2,9 @@ import { Component } from 'react';
 import { Layout, Icon, message, Spin } from 'antd';
 import SiderMenu from "../components/SiderMenu/SiderMenu";
 import { getMenuData } from '../common/menu';
-import withRouter from 'umi/withRouter';
 import logo from '../assets/logo.svg';
 import GlobalHeader from "../components/GlobalHeader";
+import withRouter from 'umi/withRouter';
 import { formatter } from '../utils/utils'
 import { connect } from 'dva';
 import { logout } from '../services';
@@ -23,6 +23,7 @@ class BasicLayout extends Component {
     };
   }
   componentWillMount() {
+    debugger;
     const { global: { login }, dispatch, location } = this.props;
     if (!login && (localStorage.sms_uuid || sessionStorage.sms_uuid) && location.pathname !== '/') {
       dispatch({
