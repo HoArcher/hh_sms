@@ -2,8 +2,7 @@ export default {
 
   'post /api/login': function (req, res, next) {
     setTimeout(() => {
-      res.json((req.body.username === 'user' && req.body.password === 'user') ?
-        userDatas : ((req.body.username === 'admin' && req.body.password === 'admin' && req.body.role === 'admin') ? adminDatas : { status: 'error', message: '账号或者密码错误!' }))
+      adminDatas 
     }, 1500)
   },
   'post /api/checkLogin': function (req, res, next) {

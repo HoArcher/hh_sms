@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { connect } from 'dva';
 import { Form, Input, Button, Alert, Divider } from 'antd';
 import router from 'umi/router';
-import ReportBottom from 'components/ReportBottom';
+import ReportBottom from '@/components/ReportBottom';
 import { digitUppercase } from '@/utils/utils';
 import styles from './style.less';
 

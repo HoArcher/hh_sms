@@ -34,7 +34,7 @@ class BasicLayout extends Component {
       });
     } else if (!(localStorage.sms_uuid || sessionStorage.sms_uuid)) {
       router.push({
-        pathname: '/',
+        pathname: '/login',
       });
     }
   }
