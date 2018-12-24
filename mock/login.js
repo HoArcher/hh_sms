@@ -66,7 +66,7 @@ const adminDatas = {
       authority: 'admin',
       children: [
         {
-          name: '产品分析',
+          name: '产品分析1',
           path: 'analysis',
           authority: 'admin',
         },

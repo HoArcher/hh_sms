@@ -1,0 +1,103 @@
+export default [
+  {
+    path: '/merchant/configManage',
+    name: '配置管理',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/ConfigManage',
+  },
+  {
+    path: '/merchant/dataDictionary',
+    name: '数据字典',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/DataDictionary',
+  },
+  {
+    path: '/merchant/bindFactory',
+    name: '绑定工厂',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/BindFactory',
+  },
+
+  {
+    path: '/merchant/storeManage',
+    name: '门店管理',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/StoreManage',
+  },
+  {
+    path: '/merchant/clerkManage',
+    name: '店员管理',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/ClerkManage',
+  },
+  {
+    path: '/merchant/vipClass',
+    name: '会员类别',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/VipClass',
+  },
+  {
+    path: '/merchant/bindFactory',
+    name: '会员管理',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/BindFactory',
+  },
+  {
+    path: '/merchant/discountSetting',
+    name: '折扣设置',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/DiscountSetting',
+  },
+  {
+    path: '/merchant/rechargeSetting',
+    name: '充值设置',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/RechargeSetting',
+  },
+  {
+    path: '/merchant/incomeRecord',
+    name: '收入记录',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/IncomeRecord',
+  },
+  {
+    path: '/merchant/expenditureRecod',
+    name: '支出记录',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/ExpenditureRecod',
+  },
+  {
+    path: '/merchant/dailyAccounting',
+    name: '日记账',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/DailyAccounting',
+  },
+  {
+    path: '/merchant/inventoryList',
+    name: '库存查看',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/InventoryList',
+  },
+  {
+    path: '/merchant/salesReport',
+    name: '销售日报',
+    icon: 'setting',
+    authority: ['merchant'],
+    component: './MerchantPages/SalesReport',
+  },
+
+
+]

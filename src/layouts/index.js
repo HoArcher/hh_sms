@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { Layout, Icon, message, Spin } from 'antd';
 import SiderMenu from "../components/SiderMenu/SiderMenu";
-import { getMenuData } from '../common/menu';
 import logo from '../assets/logo.svg';
 import GlobalHeader from "../components/GlobalHeader";
 import withRouter from 'umi/withRouter';

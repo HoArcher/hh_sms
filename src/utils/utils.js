@@ -203,14 +203,14 @@ export function formatter(data, parentPath = '/', parentAuthority) {
 export function getRoutes(mDatas) {
   let newArr = new Array();
   mDatas.forEach(element => {
-    const root = `/${element.path}`;
-    if (!element.children || element.children.length === 0) {
+    const root = `${element.path}`;
+    if (!element.routes || element.routes.length === 0) {
       newArr.push(root)
     }
     else {
-      const childRoutes = getRoutes(element.children);
+      const childRoutes = getRoutes(element.routes);
       childRoutes.forEach(item => {
-        newArr.push(`${root}${item}`)
+        newArr.push(`${item}`)
       })
     }
   });
